@@ -57,6 +57,17 @@ void pinMode( uint32_t ulPin, uint32_t ulMode )
       PORT->Group[g_APinDescription[ulPin].ulPort].OUTCLR.reg = (uint32_t)(1<<g_APinDescription[ulPin].ulPin) ;
     break ;
 
+    case STANDBY:
+      // Set pin to standby to save power, this is the default configuration
+      // see AT06549: For unused I/O pins, the default configuration should be used, as this disconnects the I/O pads from the I/O pins,
+      // reducing the leakage current. With the default configuration for an I/O pin the bit corresponding to the pin in the
+      // Data Direction (DIR) register,
+      // the Input Enable bit in the Pin Configuration y register (PINCFGy.INEN),
+      // and the Pull Enable bit in the Pin Configuration y register (PINCFGy.PULLEN) are all written to zero.
+      PORT->Group[g_APinDescription[ulPin].ulPort].DIRCLR.reg = (uint32_t)(1<<g_APinDescription[ulPin].ulPin) ;
+      PORT->Group[g_APinDescription[ulPin].ulPort].PINCFG[g_APinDescription[ulPin].ulPin].reg=(uint8_t)(0) ;
+	break ;
+
     case OUTPUT:
       // enable input, to support reading back values, with pullups disabled
       PORT->Group[g_APinDescription[ulPin].ulPort].PINCFG[g_APinDescription[ulPin].ulPin].reg=(uint8_t)(PORT_PINCFG_INEN) ;
