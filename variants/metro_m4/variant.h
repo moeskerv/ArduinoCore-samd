@@ -30,9 +30,9 @@
 #define VARIANT_MAINOSC		(32768ul)
 
 /** Master clock frequency */
-#define VARIANT_MCK			  (120000000ul)
+#define VARIANT_MCK	(F_CPU)
 
-#define VARIANT_GCLK0_FREQ (120000000UL)
+#define VARIANT_GCLK0_FREQ (F_CPU)
 #define VARIANT_GCLK1_FREQ (48000000UL)
 #define VARIANT_GCLK2_FREQ (100000000UL)
 
@@ -88,6 +88,7 @@ extern "C"
 #define PIN_LED2             PIN_LED_RXL
 #define PIN_LED3             PIN_LED_TXL
 #define LED_BUILTIN          PIN_LED_13
+#define PIN_NEOPIXEL         (40)
 
 /*
  * Analog pins
@@ -206,8 +207,10 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 #define PIN_PCC_D8      (5u)
 #define PIN_PCC_D9      (6u)
 
-//TODO: meaningful value for this
-#define VARIANT_QSPI_BAUD_DEFAULT 5000000
+#if !defined(VARIANT_QSPI_BAUD_DEFAULT)
+  // TODO: meaningful value for this
+  #define VARIANT_QSPI_BAUD_DEFAULT 5000000
+#endif
 
 #ifdef __cplusplus
 }
